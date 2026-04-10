@@ -1,5 +1,5 @@
 // src/lib/email/index.ts
-import nodemailer from "nodemailer";
+import * as nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
