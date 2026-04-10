@@ -1,0 +1,110 @@
+/* src/app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Design tokens ────────────────────────────────────────────────────────── */
+:root {
+  --bg:            #f8fafc;
+  --surface:       #ffffff;
+  --surface-alt:   #f1f5f9;
+  --border:        #e2e8f0;
+  --text:          #0f172a;
+  --text-muted:    #64748b;
+  --accent:        #6366f1;
+  --accent-light:  #eef2ff;
+  --accent-2:      #8b5cf6;
+  --success:       #10b981;
+  --warning:       #f59e0b;
+  --danger:        #ef4444;
+
+  /* Tag palette */
+  --wake-up:    #f59e0b;
+  --morning:    #a78bfa;
+  --meal:       #fb923c;
+  --college:    #3b82f6;
+  --study:      #6366f1;
+  --gym:        #10b981;
+  --walk:       #22c55e;
+  --sleep:      #8b5cf6;
+  --work:       #0ea5e9;
+  --hydration:  #38bdf8;
+  --custom:     #ec4899;
+}
+
+.dark {
+  --bg:           #0f172a;
+  --surface:      #1e293b;
+  --surface-alt:  #162032;
+  --border:       #334155;
+  --text:         #f1f5f9;
+  --text-muted:   #94a3b8;
+  --accent-light: #312e81;
+}
+
+/* ── Base ─────────────────────────────────────────────────────────────────── */
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-dm-sans), 'DM Sans', system-ui, sans-serif;
+  margin: 0; padding: 0;
+  overscroll-behavior: none;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+/* ── Mobile-app shell ─────────────────────────────────────────────────────── */
+.app-shell {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  position: relative;
+}
+
+/* ── Animations ───────────────────────────────────────────────────────────── */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(99,102,241,0.4); }
+  70%  { box-shadow: 0 0 0 10px rgba(99,102,241,0); }
+  100% { box-shadow: 0 0 0 0 rgba(99,102,241,0); }
+}
+
+.animate-slide-up    { animation: slideUp   0.3s ease forwards; }
+.animate-slide-down  { animation: slideDown 0.3s ease forwards; }
+.animate-fade-in     { animation: fadeIn    0.25s ease forwards; }
+.animate-pulse-ring  { animation: pulse-ring 2s infinite; }
+
+/* ── Utility ──────────────────────────────────────────────────────────────── */
+.glass {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ── Bottom safe area ─────────────────────────────────────────────────────── */
+.pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+
+/* ── Time picker dark fix ─────────────────────────────────────────────────── */
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
