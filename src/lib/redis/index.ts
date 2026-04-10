@@ -1,9 +1,15 @@
 // src/lib/redis/index.ts
+
 import { Queue, Worker, QueueEvents } from "bullmq";
 import IORedis from "ioredis";
 
-const connection = new IORedis(process.env.REDIS_URL || "redis://localhost:6379", {
+const redisUrl = process.env.REDIS_URL || "redis://localhost:6379";
+const isTLS = redisUrl.startsWith("rediss://");
+
+const connection = new IORedis(redisUrl, {
   maxRetriesPerRequest: null,
+  tls: isTLS ? {} : undefined,
+  enableReadyCheck: false,  // required by BullMQ
 });
 
 export const redisClient = connection;

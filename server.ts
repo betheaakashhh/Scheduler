@@ -1,9 +1,11 @@
 // server.ts  — run with: ts-node server.ts
+import "dotenv/config";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { Worker } from "bullmq";
-import IORedis from "ioredis";
-import { QUEUES } from "./src/lib/redis/index";
+
+
+import { QUEUES, redisClient } from "./src/lib/redis/index";
 import type {
   ServerToClientEvents,
   ClientToServerEvents,
@@ -12,9 +14,6 @@ import type {
 
 const PORT = parseInt(process.env.SOCKET_PORT || "3001", 10);
 
-const redisConnection = new IORedis(process.env.REDIS_URL || "redis://localhost:6379", {
-  maxRetriesPerRequest: null,
-});
 
 const httpServer = createServer();
 const io = new Server<ClientToServerEvents, ServerToClientEvents>(httpServer, {
@@ -80,7 +79,7 @@ const emailWorker = new Worker(
       });
     }
   },
-  { connection: redisConnection }
+  { connection: redisClient }
 );
 
 // ─── Slot auto-complete Worker ────────────────────────────────────────────────
@@ -97,7 +96,7 @@ const slotWorker = new Worker(
     });
     io.to(`user:${userId}`).emit("slot:completed", { slotId, date, xp: 0 });
   },
-  { connection: redisConnection }
+  { connection: redisClient }
 );
 
 emailWorker.on("completed", (job) => console.log(`[email] job ${job.id} done`));
